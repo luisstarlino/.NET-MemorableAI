@@ -7,6 +7,10 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Memorable.Web", "MemorableA
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "MemorableAI.Domain", "MemorableAI.Domain\MemorableAI.Domain.csproj", "{7AE4E38A-35A3-397B-A849-DCEA4CD21DFE}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "MemorableAI.Infra", "MemorableAI.Infra\MemorableAI.Infra.csproj", "{69E815A9-C0D3-4C17-821D-53954982CFF8}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "MemorableAI.Application", "MemorableAI.Application\MemorableAI.Application.csproj", "{575DC8C1-BC48-4B65-B14B-DB3E88AEB442}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -21,6 +25,14 @@ Global
 		{7AE4E38A-35A3-397B-A849-DCEA4CD21DFE}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{7AE4E38A-35A3-397B-A849-DCEA4CD21DFE}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{7AE4E38A-35A3-397B-A849-DCEA4CD21DFE}.Release|Any CPU.Build.0 = Release|Any CPU
+		{69E815A9-C0D3-4C17-821D-53954982CFF8}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{69E815A9-C0D3-4C17-821D-53954982CFF8}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{69E815A9-C0D3-4C17-821D-53954982CFF8}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{69E815A9-C0D3-4C17-821D-53954982CFF8}.Release|Any CPU.Build.0 = Release|Any CPU
+		{575DC8C1-BC48-4B65-B14B-DB3E88AEB442}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{575DC8C1-BC48-4B65-B14B-DB3E88AEB442}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{575DC8C1-BC48-4B65-B14B-DB3E88AEB442}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{575DC8C1-BC48-4B65-B14B-DB3E88AEB442}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
