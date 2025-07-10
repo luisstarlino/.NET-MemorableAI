@@ -6,4 +6,8 @@
     <Nullable>enable</Nullable>
   </PropertyGroup>
 
+  <ItemGroup>
+    <ProjectReference Include="..\MemorableAI.Domain\MemorableAI.Domain.csproj" />
+  </ItemGroup>
+
 </Project>
