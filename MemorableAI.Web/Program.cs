@@ -1,15 +1,21 @@
 using System.Text.Json.Serialization;
+using MemorableAI.Infra.Context;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.Extensions.Configuration;
 using TrilhaApiDesafio.Context;
 
 var builder = WebApplication.CreateBuilder(args);
 
-// Add services to the container.
-builder.Services.AddDbContext<OrganizadorContext>(options =>
-    options.UseSqlServer(builder.Configuration.GetConnectionString("ConexaoPadrao")));
 
-builder.Services.AddControllers().AddJsonOptions(options =>
-    options.JsonSerializerOptions.Converters.Add(new JsonStringEnumConverter()));
+# region DBCONTEXT
+builder.Services.AddDbContext<MemorableContext>(options => options.UseNpgsql(builder.Configuration.GetConnectionString("MemorableDbConnection")));
+
+// Add services to the container.
+builder.Services.AddDbContext<OrganizadorContext>(options =>options.UseSqlServer(builder.Configuration.GetConnectionString("ConexaoPadrao")));
+#endregion
+
+
+builder.Services.AddControllers().AddJsonOptions(options =>options.JsonSerializerOptions.Converters.Add(new JsonStringEnumConverter()));
 
 // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
 builder.Services.AddEndpointsApiExplorer();
