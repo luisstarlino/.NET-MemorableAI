@@ -9,9 +9,6 @@ var builder = WebApplication.CreateBuilder(args);
 
 # region DBCONTEXT
 builder.Services.AddDbContext<MemorableContext>(options => options.UseNpgsql(builder.Configuration.GetConnectionString("MemorableDbConnection")));
-
-// Add services to the container.
-builder.Services.AddDbContext<OrganizadorContext>(options =>options.UseSqlServer(builder.Configuration.GetConnectionString("ConexaoPadrao")));
 #endregion
 
 
