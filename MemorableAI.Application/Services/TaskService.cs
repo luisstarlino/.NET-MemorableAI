@@ -8,7 +8,7 @@ using System.Threading.Tasks;
 
 namespace MemorableAI.Application.Services
 {
-    internal class TaskService : ITaskService
+    public class TaskService : ITaskService
     {
         private readonly IMemorableRepository _repository;
 
