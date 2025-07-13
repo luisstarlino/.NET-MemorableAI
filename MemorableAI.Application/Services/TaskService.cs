@@ -1,4 +1,5 @@
 ﻿using MemorableAI.Application.Interfaces;
+using MemorableAI.Application.Models;
 using MemorableAI.Domain.Interfaces;
 using System;
 using System.Collections.Generic;
@@ -27,9 +28,36 @@ namespace MemorableAI.Application.Services
             return tasks;
         }
 
-        public Task<Domain.Models.Task> ProcessAndSaveNewTask(Domain.Models.Task newTask, string? taskByPrompt)
+        async public Task<Domain.Models.Task?> ProcessAndSaveNewTask(TaskRequestModel newTask, bool hasPrompt)
         {
-            throw new NotImplementedException();
+            try
+            {
+
+                if (hasPrompt)
+                {
+                    // TODO: INTEGRATE IA
+                    return null;
+                } else
+                {
+                    // ------------------------------------
+                    // --- R1. DBModel
+                    // ------------------------------------
+                    var taskModel = new Domain.Models.Task
+                    {
+                        Description = newTask.Description!,
+                        Title = newTask.Title!,
+                        CreateBy = "MemorableAI"
+                    };
+
+                    var hasCreated = await _repository.AddNewTask(taskModel);
+                    if (hasCreated <= 0) return null;
+                    return taskModel;
+                }
+
+            } catch (Exception ex)
+            {
+                return null;
+            }
         }
 
         public Task<Domain.Models.Task> UpdateTaskById(int idTask, Domain.Models.Task updatedTask)
