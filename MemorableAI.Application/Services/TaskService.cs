@@ -44,6 +44,7 @@ namespace MemorableAI.Application.Services
                     // ------------------------------------
                     var taskModel = new Domain.Models.Task
                     {
+                        Date = DateTime.UtcNow,
                         Description = newTask.Description!,
                         Title = newTask.Title!,
                         CreateBy = "MemorableAI"
