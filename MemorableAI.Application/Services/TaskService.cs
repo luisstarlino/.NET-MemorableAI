@@ -28,6 +28,23 @@ namespace MemorableAI.Application.Services
             return tasks;
         }
 
+        async public Task<Domain.Models.Task?> GetTaskById(int idTask)
+        {
+            try
+            {
+                // ------------------------------------
+                // --- R1. Get info
+                // ------------------------------------
+                var searchTask = await _repository.GetUniqueTaskById(idTask);
+                return searchTask;
+            }
+            catch (Exception ex)
+            {
+                Console.WriteLine($"***** GetTaskById:ERROR:{ex.Message}");
+                return null;
+            }
+        }
+
         async public Task<Domain.Models.Task?> ProcessAndSaveNewTask(TaskRequestModel newTask, bool hasPrompt)
         {
             try

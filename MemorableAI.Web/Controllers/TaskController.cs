@@ -65,7 +65,7 @@ namespace Memorable.Web.Controllers
                 var hasPrompt = model.Prompt.IsEmpty() == false;
                 
                 //------------------------------------------------------------------------------------------------
-                // R2. Call service and insert 
+                // R3. Call service and insert 
                 //------------------------------------------------------------------------------------------------
                 var addedTask = await _taskService.ProcessAndSaveNewTask(model, hasPrompt);
 
@@ -76,6 +76,27 @@ namespace Memorable.Web.Controllers
             catch (Exception ex)
             {
                 return CreateBaseResponse(HttpStatusCode.InternalServerError, "ERR02-Internal server erro. Can't add a new task right now. Try again later.");
+            }
+        }
+
+        [HttpGet]
+        [Route("{id}")]
+        public async Task<IActionResult> GetTaskById(int id)
+        {
+            try
+            {
+                //------------------------------------------------------------------------------------------------
+                // R1. Search by id
+                //------------------------------------------------------------------------------------------------
+                var foundTask = await _taskService.GetTaskById(id);
+
+                if (foundTask is null) return CreateBaseResponse(HttpStatusCode.NoContent);
+                else return CreateBaseResponse(HttpStatusCode.OK, foundTask);
+            }
+            catch (Exception ex)
+            {
+                return CreateBaseResponse(HttpStatusCode.InternalServerError, "ERR04-Internal server erro. Can't get this task. Try again later.");
+
             }
         }
 

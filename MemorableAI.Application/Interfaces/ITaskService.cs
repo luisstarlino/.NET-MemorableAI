@@ -12,5 +12,9 @@ namespace MemorableAI.Application.Interfaces
         Task<IEnumerable<Domain.Models.Task>> GetAllTask();
         Task<Domain.Models.Task?> ProcessAndSaveNewTask(TaskRequestModel newTask, bool hasPrompt);
         Task<Domain.Models.Task> UpdateTaskById(int idTask, Domain.Models.Task updatedTask);
+
+        #region SEARCH SERVICES
+        Task<Domain.Models.Task?> GetTaskById(int idTask);
+        #endregion
     }
 }
