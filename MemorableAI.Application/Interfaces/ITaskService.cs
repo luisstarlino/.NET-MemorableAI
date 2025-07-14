@@ -15,6 +15,8 @@ namespace MemorableAI.Application.Interfaces
 
         #region SEARCH SERVICES
         Task<Domain.Models.Task?> GetTaskById(int idTask);
+        Task<IEnumerable<Domain.Models.Task?>> GetTaskByDescription(string descriptionSearch);
+        Task<IEnumerable<Domain.Models.Task?>> GetTaskByTitle(string titleSearch);
         #endregion
     }
 }

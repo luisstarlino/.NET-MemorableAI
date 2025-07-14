@@ -57,6 +57,21 @@ namespace MemorableAI.Infra.Repository
             return await _context.Tasks.ToListAsync();
         }
 
+        async public Task<IEnumerable<Domain.Models.Task?>> GetUniqueTaskByDescription(string description)
+        {
+            try
+            {
+                // -- FIND TASK
+                var tasks = await _context.Tasks.Where(t => t.Description.Contains(description)).ToListAsync();
+                if (tasks == null) throw new Exception("Not found");
+                else return tasks;
+            }
+            catch
+            {
+                return null;
+            }
+        }
+
         async public Task<Domain.Models.Task?> GetUniqueTaskById(int idTask)
         {
             try
@@ -67,6 +82,21 @@ namespace MemorableAI.Infra.Repository
                 else return taskToDelete;
                 
             } catch
+            {
+                return null;
+            }
+        }
+
+        async public Task<IEnumerable<Domain.Models.Task?>> GetUniqueTaskByTitle(string title)
+        {
+            try
+            {
+                // -- FIND TASK
+                var tasks = await _context.Tasks.Where(t => t.Description.Contains(title)).ToListAsync();
+                if (tasks == null) throw new Exception("Not found");
+                else return tasks;
+            }
+            catch
             {
                 return null;
             }

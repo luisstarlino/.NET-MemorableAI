@@ -28,6 +28,12 @@ namespace MemorableAI.Application.Services
             return tasks;
         }
 
+        async public Task<IEnumerable<Domain.Models.Task?>> GetTaskByDescription(string descriptionSearch)
+        {
+            var tasks = await _repository.GetUniqueTaskByDescription(descriptionSearch);
+            return tasks;
+        }
+
         async public Task<Domain.Models.Task?> GetTaskById(int idTask)
         {
             try
@@ -43,6 +49,12 @@ namespace MemorableAI.Application.Services
                 Console.WriteLine($"***** GetTaskById:ERROR:{ex.Message}");
                 return null;
             }
+        }
+
+        async public Task<IEnumerable<Domain.Models.Task?>> GetTaskByTitle(string titleSearch)
+        {
+            var tasks = await _repository.GetUniqueTaskByTitle(titleSearch);
+            return tasks;
         }
 
         async public Task<Domain.Models.Task?> ProcessAndSaveNewTask(TaskRequestModel newTask, bool hasPrompt)
