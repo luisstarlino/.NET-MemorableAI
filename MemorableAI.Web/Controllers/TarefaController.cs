@@ -24,13 +24,6 @@ namespace TrilhaApiDesafio.Controllers
             return Ok();
         }
 
-        [HttpGet("ObterTodos")]
-        public IActionResult ObterTodos()
-        {
-            // TODO: Buscar todas as tarefas no banco utilizando o EF
-            return Ok();
-        }
-
         [HttpGet("ObterPorTitulo")]
         public IActionResult ObterPorTitulo(string titulo)
         {
@@ -55,16 +48,7 @@ namespace TrilhaApiDesafio.Controllers
             return Ok(tarefa);
         }
 
-        [HttpPost]
-        public IActionResult Criar(Tarefa tarefa)
-        {
-            if (tarefa.Data == DateTime.MinValue)
-                return BadRequest(new { Erro = "A data da tarefa não pode ser vazia" });
-
-            // TODO: Adicionar a tarefa recebida no EF e salvar as mudanças (save changes)
-            return CreatedAtAction(nameof(ObterPorId), new { id = tarefa.Id }, tarefa);
-        }
-
+      
         [HttpPut("{id}")]
         public IActionResult Atualizar(int id, Tarefa tarefa)
         {

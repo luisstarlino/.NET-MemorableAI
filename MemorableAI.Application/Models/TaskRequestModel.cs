@@ -8,8 +8,9 @@ namespace MemorableAI.Application.Models
 {
     public class TaskRequestModel
     {
-        public string Title { get; set; }
-        public string Description { get; set; }
-        public string CreateBy { get; set; }
+        public string? Title { get; set; }
+        public string? Description { get; set; }
+        public string? CreateBy { get; set; }
+        public string? Prompt { get; set; }
     }
 }
