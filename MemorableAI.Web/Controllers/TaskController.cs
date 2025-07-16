@@ -100,5 +100,46 @@ namespace Memorable.Web.Controllers
             }
         }
 
+        [HttpPost]
+        [Route("search")]
+        public async Task<IActionResult> SearchTasksByFilter(TaskSearchRequestModel filter)
+        {
+            try
+            {
+
+                //------------------------------------------------------------------------------------------------
+                // R1. Check param
+                //------------------------------------------------------------------------------------------------
+                if (!filter.Description.IsEmpty() && !filter.Title.IsEmpty())
+                {
+                    return CreateBaseResponse(HttpStatusCode.BadRequest, "Please, select and use only one filter at a time! (Title or Description)");
+                } 
+                //------------------------------------------------------------------------------------------------
+                // R2. Description Filter
+                //------------------------------------------------------------------------------------------------
+                else if (!filter.Description.IsEmpty() && filter.Title.IsEmpty()) 
+                {
+                    var selectedTasks = await _taskService.GetTaskByDescription(filter.Description);
+                    return CreateBaseResponse(HttpStatusCode.OK, selectedTasks ?? null);
+                }
+                //------------------------------------------------------------------------------------------------
+                // R3. Title Filter
+                //------------------------------------------------------------------------------------------------
+                else if (!filter.Title.IsEmpty() && filter.Description.IsEmpty())
+                {
+                    var selectedTasks = await _taskService.GetTaskByTitle(filter.Title);
+                    return CreateBaseResponse(HttpStatusCode.OK, selectedTasks ?? null);
+                }
+
+                return CreateBaseResponse(HttpStatusCode.NoContent);
+
+            }
+            catch (Exception ex)
+            {
+                return CreateBaseResponse(HttpStatusCode.InternalServerError, "ERR05-Internal server erro. Can't get task now. Try again later.");
+
+            }
+        }
+
     }
 }
