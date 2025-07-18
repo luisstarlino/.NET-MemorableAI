@@ -13,4 +13,9 @@ namespace MemorableAI.Application.Models
         public string? CreateBy { get; set; }
         public string? Prompt { get; set; }
     }
+    public class TaskSearchRequestModel
+    {
+        public string? Title { get; set; }
+        public string? Description { get; set; }
+    }
 }

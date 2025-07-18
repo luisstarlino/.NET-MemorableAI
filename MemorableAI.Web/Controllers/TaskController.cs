@@ -65,7 +65,7 @@ namespace Memorable.Web.Controllers
                 var hasPrompt = model.Prompt.IsEmpty() == false;
                 
                 //------------------------------------------------------------------------------------------------
-                // R2. Call service and insert 
+                // R3. Call service and insert 
                 //------------------------------------------------------------------------------------------------
                 var addedTask = await _taskService.ProcessAndSaveNewTask(model, hasPrompt);
 
@@ -79,5 +79,117 @@ namespace Memorable.Web.Controllers
             }
         }
 
+        [HttpGet]
+        [Route("{id}")]
+        public async Task<IActionResult> GetTaskById(int id)
+        {
+            try
+            {
+                //------------------------------------------------------------------------------------------------
+                // R1. Search by id
+                //------------------------------------------------------------------------------------------------
+                var foundTask = await _taskService.GetTaskById(id);
+
+                if (foundTask is null) return CreateBaseResponse(HttpStatusCode.NoContent);
+                else return CreateBaseResponse(HttpStatusCode.OK, foundTask);
+            }
+            catch (Exception ex)
+            {
+                return CreateBaseResponse(HttpStatusCode.InternalServerError, "ERR04-Internal server erro. Can't get this task. Try again later.");
+
+            }
+        }
+
+        [HttpPost]
+        [Route("search")]
+        public async Task<IActionResult> SearchTasksByFilter(TaskSearchRequestModel filter)
+        {
+            try
+            {
+
+                //------------------------------------------------------------------------------------------------
+                // R1. Check param
+                //------------------------------------------------------------------------------------------------
+                if (!filter.Description.IsEmpty() && !filter.Title.IsEmpty())
+                {
+                    return CreateBaseResponse(HttpStatusCode.BadRequest, "Please, select and use only one filter at a time! (Title or Description)");
+                } 
+                //------------------------------------------------------------------------------------------------
+                // R2. Description Filter
+                //------------------------------------------------------------------------------------------------
+                else if (!filter.Description.IsEmpty() && filter.Title.IsEmpty()) 
+                {
+                    var selectedTasks = await _taskService.GetTaskByDescription(filter.Description);
+                    return CreateBaseResponse(selectedTasks.Count() == 0 ? HttpStatusCode.NoContent : HttpStatusCode.OK, selectedTasks ?? null);
+                }
+                //------------------------------------------------------------------------------------------------
+                // R3. Title Filter
+                //------------------------------------------------------------------------------------------------
+                else if (!filter.Title.IsEmpty() && filter.Description.IsEmpty())
+                {
+                    var selectedTasks = await _taskService.GetTaskByTitle(filter.Title);
+                    return CreateBaseResponse(selectedTasks.Count() == 0 ? HttpStatusCode.NoContent : HttpStatusCode.OK, selectedTasks ?? null);
+                }
+
+                return CreateBaseResponse(HttpStatusCode.NoContent);
+
+            }
+            catch (Exception ex)
+            {
+                return CreateBaseResponse(HttpStatusCode.InternalServerError, "ERR05-Internal server erro. Can't get task now. Try again later.");
+
+            }
+        }
+
+        [HttpPut]
+        [Route("{id}")]
+        public async Task<IActionResult> UpdateTaskById([FromBody]TaskSearchRequestModel filter, int id)
+        {
+            try
+            {
+                //------------------------------------------------------------------------------------------------
+                // R1. Check params
+                //------------------------------------------------------------------------------------------------
+                if (!filter.Description.IsEmpty() && !filter.Title.IsEmpty())
+                {
+                    return CreateBaseResponse(HttpStatusCode.BadRequest, "Please, send a parameter to update this task!");
+                }
+
+                //------------------------------------------------------------------------------------------------
+                // R2. Update Task
+                //------------------------------------------------------------------------------------------------
+                var newUpdatedTask = await _taskService.UpdateTaskById(id, filter);
+                if (newUpdatedTask is null) return CreateBaseResponse(HttpStatusCode.NoContent, "There are no task with this id to update.");
+                else
+                {
+                    return CreateBaseResponse(HttpStatusCode.OK, newUpdatedTask);
+                }
+
+            }
+            catch (Exception ex)
+            {
+                return CreateBaseResponse(HttpStatusCode.InternalServerError, "ERR06-Internal server erro. Can't update task now. Try again later.");
+            }
+
+        }
+
+        [HttpDelete]
+        [Route("{id}")]
+        public async Task<IActionResult> DeleteTask(int id)
+        {
+            try
+            {
+                //------------------------------------------------------------------------------------------------
+                // R1. Delete Task
+                //------------------------------------------------------------------------------------------------
+                var deletedTask = await _taskService.DeleteTask(id);
+                if (deletedTask is null) return CreateBaseResponse(HttpStatusCode.NoContent, "There are no task with this id to delete. Try again using another one");
+                else return CreateBaseResponse(HttpStatusCode.OK, deletedTask);
+            } catch (Exception ex)
+            {
+                return CreateBaseResponse(HttpStatusCode.InternalServerError, "ERR07-Internal server erro. Can't delete task right now. Try again later.");
+
+            }
+        }
     }
 }

@@ -18,6 +18,15 @@ namespace MemorableAI.Application.Services
             _repository = repository;
         }
 
+        public async Task<Domain.Models.Task?> DeleteTask(int idTask)
+        {
+            // ------------------------------------
+            // --- R1. Delete task
+            // ------------------------------------
+            var deletedTask = await _repository.DeleteTask(idTask);
+            return deletedTask;
+        }
+
         async public Task<IEnumerable<Domain.Models.Task>> GetAllTask()
         {
             // ------------------------------------
@@ -25,6 +34,35 @@ namespace MemorableAI.Application.Services
             // ------------------------------------
             var tasks = await _repository.GetAllTask();
 
+            return tasks;
+        }
+
+        async public Task<IEnumerable<Domain.Models.Task?>> GetTaskByDescription(string descriptionSearch)
+        {
+            var tasks = await _repository.GetUniqueTaskByDescription(descriptionSearch);
+            return tasks;
+        }
+
+        async public Task<Domain.Models.Task?> GetTaskById(int idTask)
+        {
+            try
+            {
+                // ------------------------------------
+                // --- R1. Get info
+                // ------------------------------------
+                var searchTask = await _repository.GetUniqueTaskById(idTask);
+                return searchTask;
+            }
+            catch (Exception ex)
+            {
+                Console.WriteLine($"***** GetTaskById:ERROR:{ex.Message}");
+                return null;
+            }
+        }
+
+        async public Task<IEnumerable<Domain.Models.Task?>> GetTaskByTitle(string titleSearch)
+        {
+            var tasks = await _repository.GetUniqueTaskByTitle(titleSearch);
             return tasks;
         }
 
@@ -61,9 +99,29 @@ namespace MemorableAI.Application.Services
             }
         }
 
-        public Task<Domain.Models.Task> UpdateTaskById(int idTask, Domain.Models.Task updatedTask)
+        public async Task<Domain.Models.Task?> UpdateTaskById(int idTask, TaskSearchRequestModel updatedTask)
         {
-            throw new NotImplementedException();
+            try
+            {
+
+                // ------------------------------------
+                // --- R1. Create DB Model
+                // ------------------------------------
+                var dbModel = new Domain.Models.Task
+                {
+                    Description = updatedTask.Description ?? "",
+                    Title = updatedTask.Title ?? ""
+                };
+
+                // ------------------------------------
+                // --- R1. Call repository
+                // ------------------------------------
+                var taskUpd = await _repository.UpdateTask(dbModel, idTask);
+                return taskUpd;
+            }
+            catch (Exception ex){
+                return null;
+            }
         }
     }
 }
