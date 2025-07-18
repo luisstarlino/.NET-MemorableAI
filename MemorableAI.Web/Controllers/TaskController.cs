@@ -120,7 +120,7 @@ namespace Memorable.Web.Controllers
                 else if (!filter.Description.IsEmpty() && filter.Title.IsEmpty()) 
                 {
                     var selectedTasks = await _taskService.GetTaskByDescription(filter.Description);
-                    return CreateBaseResponse(HttpStatusCode.OK, selectedTasks ?? null);
+                    return CreateBaseResponse(selectedTasks.Count() == 0 ? HttpStatusCode.NoContent : HttpStatusCode.OK, selectedTasks ?? null);
                 }
                 //------------------------------------------------------------------------------------------------
                 // R3. Title Filter
@@ -128,7 +128,7 @@ namespace Memorable.Web.Controllers
                 else if (!filter.Title.IsEmpty() && filter.Description.IsEmpty())
                 {
                     var selectedTasks = await _taskService.GetTaskByTitle(filter.Title);
-                    return CreateBaseResponse(HttpStatusCode.OK, selectedTasks ?? null);
+                    return CreateBaseResponse(selectedTasks.Count() == 0 ? HttpStatusCode.NoContent : HttpStatusCode.OK, selectedTasks ?? null);
                 }
 
                 return CreateBaseResponse(HttpStatusCode.NoContent);
@@ -141,5 +141,36 @@ namespace Memorable.Web.Controllers
             }
         }
 
+        [HttpPut]
+        [Route("{id}")]
+        public async Task<IActionResult> UpdateTaskById([FromBody]TaskSearchRequestModel filter, int id)
+        {
+            try
+            {
+                //------------------------------------------------------------------------------------------------
+                // R1. Check params
+                //------------------------------------------------------------------------------------------------
+                if (!filter.Description.IsEmpty() && !filter.Title.IsEmpty())
+                {
+                    return CreateBaseResponse(HttpStatusCode.BadRequest, "Please, send a parameter to update this task!");
+                }
+
+                //------------------------------------------------------------------------------------------------
+                // R2. Update Task
+                //------------------------------------------------------------------------------------------------
+                var newUpdatedTask = await _taskService.UpdateTaskById(id, filter);
+                if (newUpdatedTask is null) return CreateBaseResponse(HttpStatusCode.NoContent, "There are no task with this id to update.");
+                else
+                {
+                    return CreateBaseResponse(HttpStatusCode.OK, newUpdatedTask);
+                }
+
+            }
+            catch (Exception ex)
+            {
+                return CreateBaseResponse(HttpStatusCode.InternalServerError, "ERR06-Internal server erro. Can't update task now. Try again later.");
+            }
+
+        }
     }
 }

@@ -90,9 +90,29 @@ namespace MemorableAI.Application.Services
             }
         }
 
-        public Task<Domain.Models.Task> UpdateTaskById(int idTask, Domain.Models.Task updatedTask)
+        public async Task<Domain.Models.Task?> UpdateTaskById(int idTask, TaskSearchRequestModel updatedTask)
         {
-            throw new NotImplementedException();
+            try
+            {
+
+                // ------------------------------------
+                // --- R1. Create DB Model
+                // ------------------------------------
+                var dbModel = new Domain.Models.Task
+                {
+                    Description = updatedTask.Description ?? "",
+                    Title = updatedTask.Title ?? ""
+                };
+
+                // ------------------------------------
+                // --- R1. Call repository
+                // ------------------------------------
+                var taskUpd = await _repository.UpdateTask(dbModel, idTask);
+                return taskUpd;
+            }
+            catch (Exception ex){
+                return null;
+            }
         }
     }
 }
