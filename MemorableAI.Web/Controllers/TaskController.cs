@@ -172,5 +172,24 @@ namespace Memorable.Web.Controllers
             }
 
         }
+
+        [HttpDelete]
+        [Route("{id}")]
+        public async Task<IActionResult> DeleteTask(int id)
+        {
+            try
+            {
+                //------------------------------------------------------------------------------------------------
+                // R1. Delete Task
+                //------------------------------------------------------------------------------------------------
+                var deletedTask = await _taskService.DeleteTask(id);
+                if (deletedTask is null) return CreateBaseResponse(HttpStatusCode.NoContent, "There are no task with this id to delete. Try again using another one");
+                else return CreateBaseResponse(HttpStatusCode.OK, deletedTask);
+            } catch (Exception ex)
+            {
+                return CreateBaseResponse(HttpStatusCode.InternalServerError, "ERR07-Internal server erro. Can't delete task right now. Try again later.");
+
+            }
+        }
     }
 }

@@ -18,6 +18,15 @@ namespace MemorableAI.Application.Services
             _repository = repository;
         }
 
+        public async Task<Domain.Models.Task?> DeleteTask(int idTask)
+        {
+            // ------------------------------------
+            // --- R1. Delete task
+            // ------------------------------------
+            var deletedTask = await _repository.DeleteTask(idTask);
+            return deletedTask;
+        }
+
         async public Task<IEnumerable<Domain.Models.Task>> GetAllTask()
         {
             // ------------------------------------
