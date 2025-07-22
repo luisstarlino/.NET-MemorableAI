@@ -20,7 +20,7 @@ namespace MemorableAI.Application.Services
         public OpenAIService(IMemorableRepository repository, HttpClient httpClient)
         {
             _repository = repository;
-            _client = new HttpClient();
+            _client = httpClient;
             _client.DefaultRequestHeaders.Add("Authorization", $"Bearer {apiKey}");
         }
         async public Task<IEnumerable<Domain.Models.Task>?> GenerateTaskByPrompt(string prompt)
@@ -32,8 +32,8 @@ namespace MemorableAI.Application.Services
                     model = "gpt-4",  // Use "gpt-3.5-turbo" for lower cost
                     messages = new[]
                     {
-                        new { role = "system", content = "You are a helpful assistant." },
-                        new { role = "user", content = prompt }
+                        new { role = "system", content = "Você é um assistente útil que transforma textos em listas de tarefas em JSON." },
+                        new { role = "user", content = GeneratePrompt(prompt) }
                     }
                 };
 
@@ -56,6 +56,24 @@ namespace MemorableAI.Application.Services
                 return null;
             }
 
+        }
+
+        private string GeneratePrompt(string prompt)
+        {
+            string promptGenerate = $@"
+                Extraia as tarefas do texto fornecido. Para cada tarefa, crie um título curto e uma descrição. Responda no seguinte formato JSON:
+                [
+                  {{""title"": ""Título da Tarefa"", ""description"": ""Descrição da Tarefa""}}
+                ]
+                Exemplo:  
+                Entrada: ""Amanhã cedo preciso ir ao mercado, para comprar pão e ovo.""  
+                Saída esperada:  
+                [{{""title"": ""Mercado Amanhã"", ""description"": ""Comprar pão e ovo""}}]
+
+                Agora processe o seguinte texto:
+                ""{prompt}""
+             ";
+            return promptGenerate;
         }
     }
 }

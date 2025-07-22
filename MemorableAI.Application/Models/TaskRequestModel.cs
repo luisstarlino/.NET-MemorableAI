@@ -13,6 +13,11 @@ namespace MemorableAI.Application.Models
         public string? CreateBy { get; set; }
         public string? Prompt { get; set; }
     }
+
+    public class TaskPromptRequestModel
+    {
+        public string Prompt { get; set; } = String.Empty;
+    }
     public class TaskSearchRequestModel
     {
         public string? Title { get; set; }
