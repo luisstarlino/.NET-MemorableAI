@@ -23,6 +23,7 @@ builder.Services.AddSwaggerGen();
 
 builder.Services.AddScoped<IMemorableRepository, MemorableRepository>();
 builder.Services.AddScoped<ITaskService, TaskService>();
+builder.Services.AddHttpClient<IOpenAIService, OpenAIService>();
 
 
 var app = builder.Build();

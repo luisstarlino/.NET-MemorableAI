@@ -15,10 +15,12 @@ namespace Memorable.Web.Controllers
         // -- D.I 
         // ------------------------------------
         private readonly ITaskService _taskService;
+        private readonly IOpenAIService _openAIService;
 
-        public TaskController(ITaskService taskService)
+        public TaskController(ITaskService taskService, IOpenAIService openAIService)
         {
             _taskService = taskService;
+            _openAIService = openAIService;
         }
 
         /// <summary>
@@ -63,7 +65,7 @@ namespace Memorable.Web.Controllers
                 // R2. Has a prompt?
                 //------------------------------------------------------------------------------------------------
                 var hasPrompt = model.Prompt.IsEmpty() == false;
-                
+
                 //------------------------------------------------------------------------------------------------
                 // R3. Call service and insert 
                 //------------------------------------------------------------------------------------------------
@@ -72,6 +74,33 @@ namespace Memorable.Web.Controllers
                 if (addedTask == null) return CreateBaseResponse(HttpStatusCode.BadRequest, "ERR03-We can't create the task right now. Try Again Later");
 
                 return CreateBaseResponse(HttpStatusCode.Created, addedTask);
+            }
+            catch (Exception ex)
+            {
+                return CreateBaseResponse(HttpStatusCode.InternalServerError, "ERR02-Internal server erro. Can't add a new task right now. Try again later.");
+            }
+        }
+
+        [HttpPost]
+        [Route("prompt-insert")]
+        public async Task<IActionResult> AddNewTaskByPrompt([FromBody] TaskPromptRequestModel model)
+        {
+            try
+            {
+                //------------------------------------------------------------------------------------------------
+                // R1. Check all parameters
+                //------------------------------------------------------------------------------------------------
+                if (ModelState.IsValid is false) return CreateBaseResponse(HttpStatusCode.BadRequest, StringHelper.MISSING_PARAMETERS);
+                else if (model.Prompt.IsEmpty()) return CreateBaseResponse(HttpStatusCode.BadRequest, StringHelper.MISSING_PARAMETERS);
+
+                //------------------------------------------------------------------------------------------------
+                // R2. Call service and insert 
+                //------------------------------------------------------------------------------------------------
+                var taskPrompt = await _openAIService.GenerateTaskByPrompt(model?.Prompt);
+
+                if (taskPrompt == null) return CreateBaseResponse(HttpStatusCode.BadRequest, "ERR-We can't create the task right now. Try Again Later");
+
+                return CreateBaseResponse(HttpStatusCode.Created, taskPrompt);
             }
             catch (Exception ex)
             {
