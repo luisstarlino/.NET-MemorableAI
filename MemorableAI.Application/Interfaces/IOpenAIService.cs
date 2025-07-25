@@ -8,6 +8,6 @@ namespace MemorableAI.Application.Interfaces
 {
     public interface IOpenAIService
     {
-        Task<IEnumerable<Domain.Models.Task>?> GenerateTaskByPrompt(string prompt);
+        Task<List<Domain.Models.Task>?> GenerateTaskByPrompt(string prompt);
     }
 }

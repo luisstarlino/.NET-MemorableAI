@@ -1,4 +1,5 @@
 ﻿using MemorableAI.Application.Interfaces;
+using MemorableAI.Domain.Helpers;
 using MemorableAI.Domain.Interfaces;
 using System;
 using System.Collections.Generic;
@@ -23,10 +24,13 @@ namespace MemorableAI.Application.Services
             _client = httpClient;
             _client.DefaultRequestHeaders.Add("Authorization", $"Bearer {apiKey}");
         }
-        async public Task<IEnumerable<Domain.Models.Task>?> GenerateTaskByPrompt(string prompt)
+        async public Task<List<Domain.Models.Task>?> GenerateTaskByPrompt(string prompt)
         {
             try
             {
+                //------------------------------------------------------------------------------------------------
+                // R1. Call AI
+                //------------------------------------------------------------------------------------------------
                 var requestBody = new
                 {
                     model = "gpt-4",  // Use "gpt-3.5-turbo" for lower cost
@@ -37,17 +41,53 @@ namespace MemorableAI.Application.Services
                     }
                 };
 
-                var jsonContent = new StringContent(JsonSerializer.Serialize(requestBody), Encoding.UTF8, "application/json");
+                using var jsonContent = new StringContent( JsonSerializer.Serialize(requestBody), Encoding.UTF8,"application/json");
                 var response = await _client.PostAsync(apiUrl, jsonContent);
 
-                if (!response.IsSuccessStatusCode) return null;
+                //------------------------------------------------------------------------------------------------
+                // R2. Check results
+                //------------------------------------------------------------------------------------------------
+                if (!response.IsSuccessStatusCode)
+                {
+                    Console.WriteLine($"****OPENIA:STATUS ERROR {response.StatusCode}****");
+                    return null;
+                }
 
                 var responseContent = await response.Content.ReadAsStringAsync();
                 using var jsonDoc = JsonDocument.Parse(responseContent);
+                var contentText = jsonDoc.RootElement
+                    .GetProperty("choices")[0]
+                    .GetProperty("message")
+                    .GetProperty("content")
+                    .GetString();
 
-                var jsonText =  jsonDoc.RootElement.GetProperty("choices")[0].GetProperty("message").GetProperty("content").GetString();
+                if (contentText!.IsEmpty())
+                {
+                    Console.WriteLine("****OPENIA:CONTENT EMPTY****");
+                    return null;
+                }
 
-                return null;
+                //------------------------------------------------------------------------------------------------
+                // R3. Get Tasks
+                //------------------------------------------------------------------------------------------------
+                var tasks = JsonSerializer.Deserialize<List<Domain.Models.Task>>(contentText!, new JsonSerializerOptions
+                {
+                    PropertyNameCaseInsensitive = true
+                });
+
+                
+                if (tasks is null) return null;
+
+                //------------------------------------------------------------------------------------------------
+                // R4. Save Takss
+                //------------------------------------------------------------------------------------------------
+                foreach(var t in tasks)
+                {
+                    t.CreateBy = "OPENAI";
+                    await _repository.AddNewTask(t);
+                }
+
+                return tasks;
 
             }
             catch (Exception ex)
