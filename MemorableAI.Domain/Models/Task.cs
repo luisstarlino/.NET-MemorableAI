@@ -14,7 +14,7 @@ namespace MemorableAI.Domain.Models
         public string Title { get; set; }
         public string Description { get; set; }
         public string CreateBy { get; set; }
-        public DateTime Date { get; set; }
+        public DateTime Date { get; set; } = DateTime.Now;
         //public EnumStatusTarefa Status { get; set; }
     }
 }
