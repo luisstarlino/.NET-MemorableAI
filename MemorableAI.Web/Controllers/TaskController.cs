@@ -62,14 +62,9 @@ namespace Memorable.Web.Controllers
                 else if (model.Title.IsEmpty() || model.Description.IsEmpty()) return CreateBaseResponse(HttpStatusCode.BadRequest, StringHelper.MISSING_PARAMETERS);
 
                 //------------------------------------------------------------------------------------------------
-                // R2. Has a prompt?
+                // R2. Call service and insert 
                 //------------------------------------------------------------------------------------------------
-                var hasPrompt = model.Prompt.IsEmpty() == false;
-
-                //------------------------------------------------------------------------------------------------
-                // R3. Call service and insert 
-                //------------------------------------------------------------------------------------------------
-                var addedTask = await _taskService.ProcessAndSaveNewTask(model, hasPrompt);
+                var addedTask = await _taskService.ProcessAndSaveNewTask(model);
 
                 if (addedTask == null) return CreateBaseResponse(HttpStatusCode.BadRequest, "ERR03-We can't create the task right now. Try Again Later");
 
