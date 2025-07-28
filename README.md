@@ -5,6 +5,7 @@ This API was developed using DDD patter. Created to manage tasks using artificia
 
 ## 🛠️ Technologies
 - **.NET 8**
+- **xUnit**
 - **ASP.NET Core**
 - **Entity Framework Core**
 - **PostgreSQL**
