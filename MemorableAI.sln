@@ -11,6 +11,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "MemorableAI.Infra", "Memora
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "MemorableAI.Application", "MemorableAI.Application\MemorableAI.Application.csproj", "{575DC8C1-BC48-4B65-B14B-DB3E88AEB442}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "MemorableAI.Tests", "MemorableAI.Tests\MemorableAI.Tests.csproj", "{5D9C6A42-C616-4708-87AB-B9C3E1261BE5}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -33,6 +35,10 @@ Global
 		{575DC8C1-BC48-4B65-B14B-DB3E88AEB442}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{575DC8C1-BC48-4B65-B14B-DB3E88AEB442}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{575DC8C1-BC48-4B65-B14B-DB3E88AEB442}.Release|Any CPU.Build.0 = Release|Any CPU
+		{5D9C6A42-C616-4708-87AB-B9C3E1261BE5}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{5D9C6A42-C616-4708-87AB-B9C3E1261BE5}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{5D9C6A42-C616-4708-87AB-B9C3E1261BE5}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{5D9C6A42-C616-4708-87AB-B9C3E1261BE5}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
