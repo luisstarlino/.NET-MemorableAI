@@ -66,26 +66,21 @@ namespace MemorableAI.Application.Services
             return tasks;
         }
 
-        async public Task<Domain.Models.Task?> ProcessAndSaveNewTask(TaskRequestModel newTask, bool hasPrompt)
+        async public Task<Domain.Models.Task?> ProcessAndSaveNewTask(TaskRequestModel newTask)
         {
             try
             {
 
-                if (hasPrompt)
-                {
-                    // TODO: INTEGRATE IA
-                    return null;
-                } else
-                {
-                    // ------------------------------------
-                    // --- R1. DBModel
-                    // ------------------------------------
-                    var taskModel = new Domain.Models.Task(newTask.Title!, newTask.Description!);
 
-                    var hasCreated = await _repository.AddNewTask(taskModel);
-                    if (hasCreated <= 0) return null;
-                    return taskModel;
-                }
+                // ------------------------------------
+                // --- R1. DBModel
+                // ------------------------------------
+                var taskModel = new Domain.Models.Task(newTask.Title!, newTask.Description!);
+
+                var hasCreated = await _repository.AddNewTask(taskModel);
+                if (hasCreated <= 0) return null;
+                return taskModel;
+                
 
             } catch (Exception ex)
             {

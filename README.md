@@ -1,58 +1,95 @@
-# DIO - Trilha .NET - API e Entity Framework
-www.dio.me
+# 🧠 MemorableAI Task Management API
 
-## Desafio de projeto
-Para este desafio, você precisará usar seus conhecimentos adquiridos no módulo de API e Entity Framework, da trilha .NET da DIO.
+## Description
+This API was developed using DDD patter. Created to manage tasks using artificial intelligence, providing functionalities to create, retrieve, update, and delete tasks.
 
-## Contexto
-Você precisa construir um sistema gerenciador de tarefas, onde você poderá cadastrar uma lista de tarefas que permitirá organizar melhor a sua rotina.
+## 🛠️ Technologies
+- **.NET 8**
+- **xUnit**
+- **ASP.NET Core**
+- **Entity Framework Core**
+- **PostgreSQL**
+- **Swagger**
+- **DDD**
 
-Essa lista de tarefas precisa ter um CRUD, ou seja, deverá permitir a você obter os registros, criar, salvar e deletar esses registros.
+## How to run
 
-A sua aplicação deverá ser do tipo Web API ou MVC, fique a vontade para implementar a solução que achar mais adequado.
+### 1. 📦 Installation
+```bash
+git clone https://github.com/your-username/MemorableAI
+cd MemorableAI
+```
 
-A sua classe principal, a classe de tarefa, deve ser a seguinte:
-
-![Diagrama da classe Tarefa](diagrama.png)
-
-Não se esqueça de gerar a sua migration para atualização no banco de dados.
-
-## Métodos esperados
-É esperado que você crie o seus métodos conforme a seguir:
-
-
-**Swagger**
-
-
-![Métodos Swagger](swagger.png)
-
-
-**Endpoints**
-
-
-| Verbo  | Endpoint                | Parâmetro | Body          |
-|--------|-------------------------|-----------|---------------|
-| GET    | /Tarefa/{id}            | id        | N/A           |
-| PUT    | /Tarefa/{id}            | id        | Schema Tarefa |
-| DELETE | /Tarefa/{id}            | id        | N/A           |
-| GET    | /Tarefa/ObterTodos      | N/A       | N/A           |
-| GET    | /Tarefa/ObterPorTitulo  | titulo    | N/A           |
-| GET    | /Tarefa/ObterPorData    | data      | N/A           |
-| GET    | /Tarefa/ObterPorStatus  | status    | N/A           |
-| POST   | /Tarefa                 | N/A       | Schema Tarefa |
-
-Esse é o schema (model) de Tarefa, utilizado para passar para os métodos que exigirem
+### 2. Database configuration
+Make sure you have PostgreSQL installed and configure the connection string in `appsettings.json`:
 
 ```json
-{
-  "id": 0,
-  "titulo": "string",
-  "descricao": "string",
-  "data": "2022-06-08T01:31:07.056Z",
-  "status": "Pendente"
+"ConnectionStrings": {
+ "MemorableDbConnection": "Host=YOUR_HOST;Database=DB_NAME;Username=YOUR_USER;Password=YOUR_PASSWORD"
 }
 ```
 
+### **3. Perform Migrations and Update the Database**
+```bash
+dotnet ef database update
+```
 
-## Solução
-O código está pela metade, e você deverá dar continuidade obedecendo as regras descritas acima, para que no final, tenhamos um programa funcional. Procure pela palavra comentada "TODO" no código, em seguida, implemente conforme as regras acima.
+### **4. Running the Server**
+```bash
+dotnet run
+```
+
+The API will be available at `http://localhost:5000` (or the port configured in `launchSettings.json`).
+
+## Endpoints
+
+### Task
+
+#### Create a Task
+`POST /tasks`
+- **Body:**
+  ```json
+  { "title": "New task", "description": "Task description" }
+  ```
+- **Response:**
+  ```json
+   { "id": 1, "title": "New task", "description": "Task description", "createBy": "MemorableAI", "date": "2025-07-25T12:00:00Z" }
+  ```
+
+#### Get All Tasks
+`GET /tasks`
+- **Response:**
+  ```json
+  [ { "id": 1, "title": "New task", "description": "Task description", "createBy": "MemorableAI", "date": "2025-07-25T12:00:00Z" } ]
+  ```
+
+  
+#### Get Task by ID
+`GET /tasks/{id}`
+- **Response:**
+  ```json
+  { "id": 1, "title": "New task", "description": "Task description", "createBy": "MemorableAI", "date": "2025-07-25T12:00:00Z" }
+  ```
+
+#### Get Tasks by Title
+`GET /tasks/title/{title}`
+- **Response:**
+  ```json
+  { "id": 1, "title": "New task", "description": "Task description", "createBy": "MemorableAI", "date": "2025-07-25T12:00:00Z" }
+  ```
+
+
+#### Get Tasks by Description
+`GET /tasks/description/{description}`
+- **Response:**
+  ```json
+  { "id": 1, "title": "New task", "description": "Task description", "createBy": "MemorableAI", "date": "2025-07-25T12:00:00Z" }
+  ```
+
+
+#### Update Task
+`PUT /tasks/{id}`
+- **Body:**
+```json
+    { "title": "Updated task", "description": "Updated description" }
+```
