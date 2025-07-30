@@ -80,13 +80,7 @@ namespace MemorableAI.Application.Services
                     // ------------------------------------
                     // --- R1. DBModel
                     // ------------------------------------
-                    var taskModel = new Domain.Models.Task
-                    {
-                        Date = DateTime.UtcNow,
-                        Description = newTask.Description!,
-                        Title = newTask.Title!,
-                        CreateBy = "MemorableAI"
-                    };
+                    var taskModel = new Domain.Models.Task(newTask.Title!, newTask.Description!);
 
                     var hasCreated = await _repository.AddNewTask(taskModel);
                     if (hasCreated <= 0) return null;
@@ -107,11 +101,7 @@ namespace MemorableAI.Application.Services
                 // ------------------------------------
                 // --- R1. Create DB Model
                 // ------------------------------------
-                var dbModel = new Domain.Models.Task
-                {
-                    Description = updatedTask.Description ?? "",
-                    Title = updatedTask.Title ?? ""
-                };
+                var dbModel = new Domain.Models.Task (updatedTask.Title!, updatedTask.Description!);
 
                 // ------------------------------------
                 // --- R1. Call repository

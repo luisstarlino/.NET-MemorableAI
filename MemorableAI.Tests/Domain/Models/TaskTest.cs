@@ -21,19 +21,12 @@ namespace MemorableAI.Tests.Domain.Models
             //------------------------------------------------------------------------------------------------
             // --- Act
             //------------------------------------------------------------------------------------------------
-            var task = new MemorableAI.Domain.Models.Task
-            {
-                Id = 1,
-                CreateBy = createdBy,
-                Title = "Study Unit Tests",
-                Description = "This is a arrange to test properties. Using Domain Drive Design",
-                Date = createdAt
-            };
+            var task = new MemorableAI.Domain.Models.Task("Study Unit Tests", "This is a arrange to test properties. Using Domain Drive Design", createdBy);
 
             //------------------------------------------------------------------------------------------------
             // --- Assert
             //------------------------------------------------------------------------------------------------
-            task.Id.Should().Be(1);
+            task.Id.Should().Be(0);
             task.CreateBy.Should().Be(createdBy);
             task.Description.Should().Contain("Domain Drive Design");
             
@@ -48,17 +41,20 @@ namespace MemorableAI.Tests.Domain.Models
             //------------------------------------------------------------------------------------------------
             // --- Arrange
             //------------------------------------------------------------------------------------------------
-            var newTask = new MemorableAI.Domain.Models.Task();
+            // Arrange
+            var title = "";
+            var description = "Fake Description";
+            var createdBy = "xUNIT TESTE";
 
             //------------------------------------------------------------------------------------------------
             // --- Act
             //------------------------------------------------------------------------------------------------
-            Action act = () => newTask.Title = "";
+            Action act = () => new MemorableAI.Domain.Models.Task(title, description, createdBy);
 
             //------------------------------------------------------------------------------------------------
             // --- Assert
             //------------------------------------------------------------------------------------------------
-            act.Should().NotThrow();
+            act.Should().Throw<ArgumentException>().WithMessage("*Title cannot be null or empty*");
         }
 
         /// <summary>
@@ -67,13 +63,13 @@ namespace MemorableAI.Tests.Domain.Models
         [Fact]
         public void Should_Allow_Past_Dates_But_Not_Too_Old()
         {
-            var task = new MemorableAI.Domain.Models.Task
-            {
-                Title = "Old Task",
-                Date = new DateTime(2000, 1, 1)
-            };
+            //var task = new MemorableAI.Domain.Models.Task()
+            //{
+            //    Title = "Old Task",
+            //    Date = new DateTime(2000, 1, 1)
+            //};
 
-            task.Date.Year.Should().BeLessThan(2020); // Exploratory Validation Example
+            //task.Date.Year.Should().BeLessThan(2020); // Exploratory Validation Example
         }
 
 

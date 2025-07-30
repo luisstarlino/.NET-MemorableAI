@@ -38,5 +38,22 @@ namespace MemorableAI.Domain.Models
             CreateBy = "MEMORABLE AI";
             Date = DateTime.Now;
         }
+
+        public Task(string title, string description, string createdBy)
+        {
+            if (string.IsNullOrWhiteSpace(title))
+            {
+                throw new ArgumentException("Title cannot be null or empty.", nameof(title));
+            }
+            if (string.IsNullOrWhiteSpace(description))
+            {
+                throw new ArgumentException("Description cannot be null or empty.", nameof(description));
+            }
+
+            Title = title;
+            Description = description;
+            CreateBy = createdBy;
+            Date = DateTime.Now;
+        }
     }
 }
