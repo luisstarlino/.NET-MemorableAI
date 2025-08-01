@@ -20,6 +20,7 @@
   </ItemGroup>
 
   <ItemGroup>
+    <ProjectReference Include="..\MemorableAI.Application\MemorableAI.Application.csproj" />
     <ProjectReference Include="..\MemorableAI.Domain\MemorableAI.Domain.csproj" />
     <ProjectReference Include="..\MemorableAI.Infra\MemorableAI.Infra.csproj" />
   </ItemGroup>
