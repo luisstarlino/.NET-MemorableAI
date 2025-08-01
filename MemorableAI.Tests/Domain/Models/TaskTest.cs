@@ -16,7 +16,7 @@ namespace MemorableAI.Tests.Domain.Models
             // --- Arrange
             //------------------------------------------------------------------------------------------------
             var createdAt = DateTime.Now;
-            var createdBy = "xUNIT TESTE";
+            var createdBy = "xUNIT TEST";
 
             //------------------------------------------------------------------------------------------------
             // --- Act
