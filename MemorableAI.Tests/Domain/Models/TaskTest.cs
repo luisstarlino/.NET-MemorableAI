@@ -44,7 +44,7 @@ namespace MemorableAI.Tests.Domain.Models
             // Arrange
             var title = "";
             var description = "Fake Description";
-            var createdBy = "xUNIT TESTE";
+            var createdBy = "xUNIT TEST";
 
             //------------------------------------------------------------------------------------------------
             // --- Act
