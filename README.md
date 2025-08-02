@@ -1,16 +1,30 @@
-# 🧠 MemorableAI Task Management API
+# 🧠 MemorableAI - Task Management API  w/AI
 
 ## Description
-This API was developed using DDD patter. Created to manage tasks using artificial intelligence, providing functionalities to create, retrieve, update, and delete tasks.
+MemorableAI is an API developed in .NET 8, following the layered Domain Drive Design (DDD) patter. Its purpose is to manage task using artificial intelligence, offering features for creating, retrieving, updating, and deleting tasks.
+
+The project also integrates with GPT(OpenAI) for task analysis and automatic suggestions, which enchanges the user experience and demonstrates the practical use of AI in modern APIs.
 
 ## 🛠️ Technologies
-- **.NET 8**
-- **xUnit**
-- **ASP.NET Core**
+- **OpenAI GPT Integration**
 - **Entity Framework Core**
+- **Github Actions**
 - **PostgreSQL**
 - **Swagger**
+- **.NET 8**
+- **xUnit**
 - **DDD**
+
+## ⚙️ GitHub Actions
+This project has Continuous Integration configured via **Github Actions**.
+Whenever a **Pull Request(PR)** is opened for the `main` branch, a pipeline is automatically triggered to run the project's automated tests. This check ensure that new changes do not break existing functionality and maintais code quality during collaborative development.
+
+## 🧪 Automated Testing
+Automated tests are developed using the **xUnit** framework, validating the main application flows. The test structure covers:
+- Task creating, update, and removal tests;
+- Domain service tests;
+- Integration tests;
+- Covarege of business rules and exceptions;
 
 ## How to run
 
@@ -93,3 +107,21 @@ The API will be available at `http://localhost:5000` (or the port configured in 
 ```json
     { "title": "Updated task", "description": "Updated description" }
 ```
+
+---
+
+## 📄 License
+This project is licnsed under the **MIT License**.
+See the [LICENSE](./LICENSE) file for more details.
+---
+
+## 👤 Author
+
+**Luis Guilherme Starlino**  
+Tech Lead | .NET Fullstack Developer  
+🔗 [LinkedIn](https://www.linkedin.com/in/luisstarlino)  
+📧 luis.guilherme009@gmail.com  
+---
+
+> This project was developed as a model of best practices in DDD architecture, automated testing, and AI integration, serving as a reference for developers who want to build modern and scalable APIs with .NET.
+
